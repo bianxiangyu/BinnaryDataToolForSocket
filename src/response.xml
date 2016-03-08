@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<responses keyTag="bodyType,btype,repeatU">
+	<piece id="head">
+		<startTag length="4" type="string">SIEW</startTag>
+		<length length="4" type="uint">74</length>
+		<funcid length="4" type="uint">30</funcid>
+		<fromAddress length="10" type="string">1234567890</fromAddress>
+		<toAddress length="10" type="string">0987654321</toAddress>
+	</piece>
+	<piece id="check">
+		<check length="1" type="byte"></check>
+	</piece>
+	<piece id="timeScale">
+		<timeYear type="short" length="2">11</timeYear>
+		<timeMonth type="byte" length="1">12</timeMonth>
+		<timeDay type="byte" length="1">31</timeDay>
+		<timeHour type="byte" length="1">12</timeHour>
+		<timeMinute type="byte" length="1">35</timeMinute>
+		<timeSecond type="byte" length="1">34</timeSecond>
+		<timeMilliSecond type="short" length="2">120
+		</timeMilliSecond>
+		<timeMicroSecond type="short" length="2">21
+		</timeMicroSecond>
+		<timeNanoSecond type="short" length="2">121
+		</timeNanoSecond>
+	</piece>
+	<piece id="whiteGaussianNoiseData">
+		<include id="timeScale"></include>
+		<centerFrequency type="uint" length="4">60
+		</centerFrequency>
+		<bandWidth type="uint" length="4">12</bandWidth>
+		<fieldStrength type="short" length="2">21</fieldStrength>
+		<outSideNoiseRate type="short" length="2">12
+		</outSideNoiseRate>
+		<XRate type="short" length="2">21</XRate>
+		<machineBaseNoise type="short" length="2">21
+		</machineBaseNoise>
+		<outSideNoiseLevel type="short" length="2">21
+		</outSideNoiseLevel>
+		<noiseCorrectionValue type="short" length="2">21
+		</noiseCorrectionValue>
+		<XRateCorrectionValue type="short" length="2">21
+		</XRateCorrectionValue>
+		<remainNoiseSamplesMiddleValue type="short"
+			length="2">21</remainNoiseSamplesMiddleValue>
+		<remainNoiseSamplesAverageValue type="short"
+			length="2">21</remainNoiseSamplesAverageValue>
+		<antennaFactor type="short" length="2">21</antennaFactor>
+		<cableLoss type="short" length="2">21</cableLoss>
+		<machineNoiseRate type="short" length="2">21
+		</machineNoiseRate>
+	</piece>
+	<piece id="impulseNoiseData">
+		<include id="timeScale"></include>
+		<centerFrequency type="uint" length="4">21
+		</centerFrequency>
+		<bandWidth type="uint" length="4">21</bandWidth>
+		<antennaFactor type="short" length="2">12</antennaFactor>
+		<cableLoss type="short" length="2">12</cableLoss>
+		<machineNoiseRate type="short" length="2">12
+		</machineNoiseRate>
+		<machineBaseNoise type="short" length="2">12
+		</machineBaseNoise>
+		<gaussianNoiseLevel type="short" length="2">12
+		</gaussianNoiseLevel>
+		<pulseContinueTime type="uint" length="4">12
+		</pulseContinueTime>
+		<pulseFieldStrength type="short" length="2">12
+		</pulseFieldStrength>
+		<repeatU type="uint" length="4">
+			<pulseWidth type="uint" length="4">12</pulseWidth>
+			<pulseInterval type="uint" length="4">12</pulseInterval>
+			<pulseLevel type="short" length="2">12</pulseLevel>
+		</repeatU>
+	</piece>
+	<piece id="spectrumData">
+		<repeatU length="4" type="uint">
+			<range length="2" type="short">12</range>
+			<frequency length="4" type="uint">12</frequency>
+		</repeatU>
+	</piece>
+	<response id="100">
+		<include id="head" />
+		<monitorResponse length="1" type="byte">1</monitorResponse>
+		<include id="check" />
+	</response>
+	<response id="102">
+		<include id="head" />
+		<machineStatus length="1" type="byte">1</machineStatus>
+		<repeatU length="1" type="byte">
+			<faultCode length="1" type="byte">1</faultCode>
+		</repeatU>
+		<include id="check" />
+	</response>
+	<response id="103">
+		<include id="head" />
+		<linkState length="1" type="byte">1</linkState>
+		<include id="check" />
+	</response>
+	<response id="120">
+		<include id="head"></include>
+		<bodyType length="1" type="byte">
+			<btype dataType="0">
+				<include id="whiteGaussianNoiseData" />
+			</btype>
+			<btype dataType="1">
+				<include id="impulseNoiseData" />
+			</btype>
+		</bodyType>
+		<include id="check" />
+	</response>
+	<response id="130">
+		<include id="head" />
+		<bodyType length="1" type="byte">
+			<btype dataType="1">
+				<include id="whiteGaussianNoiseData" />
+			</btype>
+			<btype dataType="2">
+				<include id="impulseNoiseData" />
+			</btype>
+		</bodyType>
+		<include id="check" />
+	</response>
+	<response id="140">
+		<include id="head" />
+		<bodyType length="1" type="byte">
+			<btype dataType="1">
+				<include id="whiteGaussianNoiseData" />
+			</btype>
+			<btype dataType="2">
+				<include id="impulseNoiseData" />
+			</btype>
+		</bodyType>
+		<include id="check" />
+	</response>
+</responses>

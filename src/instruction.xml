@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions  repeatTag="repeat">
+	<piece id="head">
+		<startTag length="4" type="string">SIEW</startTag>
+		<length length="4" type="uint"></length>
+		<funcid length="4" type="uint"></funcid>
+		<fromAddress length="10" type="string">1234567890</fromAddress>
+		<toAddress length="10" type="string">0987654321</toAddress>
+	</piece>
+	<piece id="check">
+		<check length="1" type="byte"></check>
+	</piece>
+	<instruction id="1">
+		<include id="head" />
+		<funcTag length="4" type="uint">1</funcTag>
+		<include id="check" />
+	</instruction>
+	<instruction id="2">
+		<include id="head" />
+		<include id="check" />
+	</instruction>
+	<instruction id="3">
+		<include id="head" />
+		<include id="check" />
+	</instruction>
+	<instruction id="20">
+		<include id="head" />
+		<monitorFrequency length="4" type="uint"></monitorFrequency>
+		<displayBandWidth length="4" type="uint"></displayBandWidth>
+		<IFBandWidth length="4" type="uint"></IFBandWidth>
+		<XRate length="1" type="byte"></XRate>
+		<attenuation length="1" type="byte"></attenuation>
+		<methodType length="1" type="byte"></methodType>
+		<include id="check" />
+	</instruction>
+	<instruction id="30">
+		<include id="head" />
+		<repeat length="2" type="short">
+			<startFrequency length="4" type="uint"></startFrequency>
+			<endFrequency length="4" type="uint"></endFrequency>
+			<scanStep length="4" type="uint"></scanStep>
+			<bandWidth length="4" type="uint"></bandWidth>
+			<attenuation length="1" type="byte"></attenuation>
+		</repeat>
+		<stopTime length="2" type="short"></stopTime>
+		<AGCControl length="1" type="byte"></AGCControl>
+		<methodType length="1" type="byte"></methodType>
+		<include id="check" />
+	</instruction>
+	<instruction id="40">
+		<include id="head" />
+		<repeat length="2" type="short">
+			<frequency length="4" type="uint"></frequency>
+			<IFBandWidth length="4" type="uint"></IFBandWidth>
+			<attenuation length="1" type="byte"></attenuation>
+		</repeat>
+		<stopTime length="2" type="short"></stopTime>
+		<AGCControl length="1" type="byte"></AGCControl>
+		<methodType length="1" type="byte"></methodType>
+		<include id="check" />
+	</instruction>
+</instructions>
