@@ -13,6 +13,7 @@ import com.centling.radio.socket.model.RequestParameter;
 import com.centling.radio.utils.PropertyUtils;
 
 public class SiteInstructionWaitSimulation implements Runnable {
+    private final static String TIME_PER_MSG = PropertyUtils.getProperty("time_per_mesg");
     private Logger Log = LoggerFactory.getLogger(SiteInstructionWaitSimulation.class);
     RequesResponsetMap responseForRequest = new RequesResponsetMap();
     private int serverPort;
@@ -41,7 +42,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 
     private class ReceiveDataThread extends Thread {
 	private SocketExtend socket;
-	private int timeOut = 10;
+	private int timeOut = Integer.valueOf(TIME_PER_MSG);
 	private volatile boolean end = false;
 
 	public ReceiveDataThread(SocketExtend socket) {
@@ -57,8 +58,9 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	    while (!ifHeartBeat && !end) {
 		byte[] instrByte = null;
 		try {
-		    instrByte = socket.receiveData(7000, 5);
+		    instrByte = socket.receiveData(receiveTimeOut, receiveEndOut);
 		} catch (IOException e1) {
+		    socket.destoryConnect();
 		    Log.info("网络连接异常,无法读取数据，即将返回");
 		    e1.printStackTrace();
 		    return;
@@ -109,7 +111,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 
     private class SendDataThread extends Thread {
 	private SocketExtend socket;
-	private int timeOut = 30;
+	private int timeOut = Integer.valueOf(TIME_PER_MSG);
 	private AtomicBoolean end = new AtomicBoolean(false);
 
 	public SendDataThread(SocketExtend socket) {
@@ -161,6 +163,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    socketServer.sendDataToClient(repData, socket);
 		} catch (IOException e) {
 		    Log.error("网络连接异常，无法向客户端发送数据!");
+		    socketServer.destoryConnect(socket);
 		    break;
 		}
 	    } while (!ifHeartBeat);
