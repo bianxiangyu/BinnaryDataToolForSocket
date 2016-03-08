@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message>
+	<instruction id="1" chose="false" baseLength="37" />
+	<instruction id="2" chose="false" baseLength="33" />
+	<instruction id="3" chose="false" baseLength="33" />
+	<instruction id="20" chose="false" baseLength="48" />
+	<instruction id="30" chose="false" baseLength="39"
+		extendBaseLength="17" />
+	<instruction id="40" chose="false" baseLength="39"
+		extendBaseLength="9" />
+	<response id="100" chose="false" />
+	<response id="102" chose="false" unNormalRepeatPos="33"
+		uRepeatlength="1" />
+	<response id="103" chose="false" />
+	<response id="120" chose="true" chosePos="32" choseLength="1">
+		<body id="0"/>
+		<body id="1" uRepeatlength="4" unNormalRepeatPos="70"/>
+	</response>
+	<response id="130" chose="true" chosePos="32" choseLength="1">
+		<body id="1"></body>
+		<body id="2" uRepeatlength="4" unNormalRepeatPos="70"/>
+	</response>
+	<response id="140" chose="true" chosePos="32" choseLength="1">
+		<body id="1"></body>
+		<body id="2" uRepeatlength="4" unNormalRepeatPos="70"/>
+	</response>
+</message>
