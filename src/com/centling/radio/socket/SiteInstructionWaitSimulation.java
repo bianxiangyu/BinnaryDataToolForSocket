@@ -70,6 +70,21 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		}
 		Integer funcidCpy = BaseTcpMesgDecode.getFunctionInt(instrByte);
 		Log.info("收到新的指令[{}]<<<<任务切换", funcidCpy);
+		if (funcidCpy.toString().equals("2")) {
+		    Log.info("收到设备自检指令<<<<任务切换");
+		    byte[] mStatus = responseForRequest.responseForRequest("2");
+		    	oldSendDataThread.machineErr();
+		    try {
+			Thread.sleep(timeOut);
+			oldSendDataThread.sendDataOnce(mStatus);
+			Log.info("发送设备自检响应数据[{}]<<<<任务切换",mStatus.length);
+		    } catch (IOException e) {
+			e.printStackTrace();
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
+		    }
+		    
+		}
 		if (!funcidCpy.toString().equals("2") && !funcidCpy.toString().equals("3")) {
 		    byte[] repFirst = responseForRequest.responseForRequest("1");
 		    try {
@@ -113,7 +128,10 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	private SocketExtend socket;
 	private int timeOut = Integer.valueOf(TIME_PER_MSG);
 	private AtomicBoolean end = new AtomicBoolean(false);
-
+	private volatile boolean error = false;
+	public void machineErr(){
+	    this.error = true;
+	}
 	public SendDataThread(SocketExtend socket) {
 	    this.socket = socket;
 	}
@@ -134,6 +152,9 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	@Override
 	public void run() {
 	    do {
+		if (error) {
+		    break;
+		}
 		final String funcStr = funcid.toString();
 		if (funcStr.equals("1")) {
 		    continue;
@@ -190,6 +211,20 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	    // ByteArrayTool.byteArrayToString(data));
 	    funcid.set(BaseTcpMesgDecode.getFunctionInt(data));
 	    Log.info("收到客户端指令[{}]", funcid);
+	    if (funcid.toString().equals("2")) {
+		    Log.info("收到设备自检指令");
+		    byte[] mStatus = responseForRequest.responseForRequest("2");
+		    try {
+			Thread.sleep(10);
+			socketServer.sendDataToClient(mStatus, socket);
+			Log.info("发送设备自检响应数据[{}]",mStatus.length);
+		    } catch (IOException e) {
+			e.printStackTrace();
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
+		    }
+		    continue;
+		}
 	    if (!funcid.toString().equals("2") && !funcid.toString().equals("3")) {
 		byte[] repFirst = responseForRequest.responseForRequest("1");
 		try {
