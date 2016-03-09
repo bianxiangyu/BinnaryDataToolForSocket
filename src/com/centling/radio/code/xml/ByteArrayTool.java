@@ -6,10 +6,14 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ByteArrayTool {
     public final static String FILE_CLIENT = "D:\\receiveClient.txt";
     public final static String FILE_STATION = "D:\\receiveStation.txt";
-
+    private final static Logger logger = LoggerFactory.getLogger(ByteArrayTool.class);
+    
     // 从一个byte数组中截取出一个子byte数组
     public static byte[] byteArrayCut(byte[] fromObj, int pos, int length) {
 	if (fromObj == null || pos + length > fromObj.length || pos < 0 || length <= 0) {
@@ -180,7 +184,11 @@ public class ByteArrayTool {
     }
 
     public static void main(String[] args) {
+	ByteArrayTool.setPrintStreamToFile(FILE_STATION);
+	
+	logger.info("from Log");
 	System.out.println("===================SearchByteArray 测试================");
+	
 	byte[] res = { 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6 };
 	byte[] dest = { 1, 2, 3, 4 };
 	int begin = ByteArrayTool.searchByteArray(res, dest, 0);

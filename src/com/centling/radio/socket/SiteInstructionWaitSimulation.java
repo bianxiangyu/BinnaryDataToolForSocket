@@ -1,6 +1,7 @@
 package com.centling.radio.socket;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -61,7 +62,8 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    instrByte = socket.receiveData(receiveTimeOut, receiveEndOut);
 		} catch (IOException e1) {
 		    socket.destoryConnect();
-		    Log.info("网络连接异常,无法读取数据，即将返回");
+		    //Log.info("网络连接异常,无法读取数据，即将返回");
+		    System.out.println(new Date().toString()+"::网络连接异常,无法读取数据，即将返回");
 		    e1.printStackTrace();
 		    return;
 		}
@@ -70,14 +72,19 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		}
 		Integer funcidCpy = BaseTcpMesgDecode.getFunctionInt(instrByte);
 		Log.info("收到新的指令[{}]<<<<任务切换", funcidCpy);
+		System.out.println(new Date().toString()+"::收到新的指令，任务切换---task->"+funcidCpy);
 		if (funcidCpy.toString().equals("2")) {
-		    Log.info("收到设备自检指令<<<<任务切换");
+		    Log.info("收到设备自检指令<<<<设备自检");
+		    System.out.println(new Date().toString()+"::收到设备自检指令<<<<设备自检");
 		    byte[] mStatus = responseForRequest.responseForRequest("2");
 		    	oldSendDataThread.machineErr();
+		    	Log.info("设备即将停止发送数据<<<<设备自检");
+		    	System.out.println(new Date().toString()+"::设备即将停止发送数据<<<<设备自检");
 		    try {
 			Thread.sleep(timeOut);
 			oldSendDataThread.sendDataOnce(mStatus);
 			Log.info("发送设备自检响应数据[{}]<<<<任务切换",mStatus.length);
+			System.out.println(new Date().toString()+"::发送设备自检响应数据<<<<设备自检---data->"+mStatus.length);
 		    } catch (IOException e) {
 			e.printStackTrace();
 		    } catch (InterruptedException e) {
@@ -89,22 +96,27 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    byte[] repFirst = responseForRequest.responseForRequest("1");
 		    try {
 			Log.info("监测请求应答For[{}]<<<<任务切换", funcidCpy);
+			System.out.println(new Date().toString()+"::监测请求应答<<<<任务切换---task->"+funcidCpy);
 			Thread.sleep(timeOut);
 			// timeOut = timeOut + 1000;
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
 		    }
 		    if (funcidCpy.toString().equals("1")) {
-			Log.info("收到监测终止指令<<<<任务切换", getName());
+			//Log.info("收到监测终止指令<<<<任务切换", getName());
+			 System.out.println(new Date().toString()+"::收到设备自检指令<<<<设备自检----thread->"+getName());
 			if (oldSendDataThread != null) {
 			    oldSendDataThread.end();
 			    Log.info("旧任务已经结束，新任务即将开始<<<<任务切换");
+			    System.out.println(new Date().toString()+"::旧任务已经结束，新任务即将开始<<<<任务切换");
 			}
 			try {
 			    if (oldSendDataThread.sendDataOnce(repFirst)) {
 				Log.info("监测终止响应数据[{}]到客户端<<<<任务切换", repFirst.length);
+				System.out.println(new Date().toString()+"::监测终止响应--数据--到客户端<<<<任务切换----data->"+repFirst.length);
 			    } else {
 				Log.info("监测终止响应数据到客户端------失败<<<<任务切换");
+				System.out.println(new Date().toString()+"::监测终止响应数据到客户端------失败<<<<任务切换");
 			    }
 			} catch (IOException e) {
 			    e.printStackTrace();
@@ -180,10 +192,12 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		 * repData.length, ByteArrayTool.byteArrayToString(repData));
 		 */
 		Log.info("======[{}]============响应报文[{}]==================", getName(), funcid);
+		System.out.println(new Date().toString()+"::=======响应报文============"+getName()+"=========>>"+funcid);
 		try {
 		    socketServer.sendDataToClient(repData, socket);
 		} catch (IOException e) {
-		    Log.error("网络连接异常，无法向客户端发送数据!");
+		    //Log.error("网络连接异常，无法向客户端发送数据!");
+		    System.out.println(new Date().toString()+"::网络连接异常,无法发送数据，即将返回");
 		    socketServer.destoryConnect(socket);
 		    break;
 		}
@@ -211,13 +225,16 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	    // ByteArrayTool.byteArrayToString(data));
 	    funcid.set(BaseTcpMesgDecode.getFunctionInt(data));
 	    Log.info("收到客户端指令[{}]", funcid);
+	    System.out.println(new Date().toString()+"::捕获客户端请求，收到客户端指令---new Task->"+funcid);
 	    if (funcid.toString().equals("2")) {
 		    Log.info("收到设备自检指令");
+		    System.out.println(new Date().toString()+"::捕获客户端请求，收到设备自检指令<<<<设备自检");
 		    byte[] mStatus = responseForRequest.responseForRequest("2");
 		    try {
 			Thread.sleep(10);
 			socketServer.sendDataToClient(mStatus, socket);
 			Log.info("发送设备自检响应数据[{}]",mStatus.length);
+			System.out.println(new Date().toString()+"::捕获客户端请求，发送设备自检响应数据<<<<设备自检---data->"+mStatus.length);
 		    } catch (IOException e) {
 			e.printStackTrace();
 		    } catch (InterruptedException e) {
@@ -229,12 +246,14 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		byte[] repFirst = responseForRequest.responseForRequest("1");
 		try {
 		    Log.info("监测请求应答For[{}]指令", funcid);
+		    System.out.println(new Date().toString()+"::捕获客户端请求，监测请求应答<<<<---task->"+funcid);
 		    Thread.sleep(10);
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
 		try {
 		    Log.info("发送监测响应数据到客户端");
+		    System.out.println(new Date().toString()+"::捕获客户端请求，监测终止响应--数据--到客户端<<<<任务切换----data->"+repFirst.length);
 		    socketServer.sendDataToClient(repFirst, socket);
 		} catch (IOException e) {
 		    e.printStackTrace();
