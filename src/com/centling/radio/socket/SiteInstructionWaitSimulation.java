@@ -82,7 +82,8 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    	System.out.println(new Date().toString()+"::设备即将停止发送数据<<<<设备自检");
 		    try {
 			Thread.sleep(timeOut);
-			oldSendDataThread.sendDataOnce(mStatus);
+			//oldSendDataThread.sendDataOnce(mStatus);
+			socketServer.sendDataToClient(mStatus, socket);
 			Log.info("发送设备自检响应数据[{}]<<<<设备自检--data->",mStatus.length);
 			System.out.println(new Date().toString()+"::发送设备自检响应数据<<<<设备自检---data->"+mStatus.length);
 		    } catch (IOException e) {
@@ -191,9 +192,11 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		Log.info("======[{}]============响应报文[{}]==================", getName(), funcid);
 		System.out.println(new Date().toString()+"::=======响应报文============"+getName()+"=========>>"+funcid);
 		try {
-		    socketServer.sendDataToClient(repData, socket);
+		    if (!socketServer.sendDataToClient(repData, socket)) {
+			break;
+		    }
 		} catch (IOException e) {
-		    //Log.error("网络连接异常，无法向客户端发送数据!");
+		    Log.error("网络连接异常，无法向客户端发送数据!");
 		    System.out.println(new Date().toString()+"::网络连接异常,无法发送数据，即将返回");
 		    socketServer.destoryConnect(socket);
 		    break;
