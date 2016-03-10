@@ -156,10 +156,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	    this.end = new AtomicBoolean(false);
 	}
 	public boolean sendDataOnce(byte[] data) throws IOException{
-	    if (end.get()) {
-		 return socketServer.sendDataToClient(data, socket);
-	    }
-	   return false;
+	    return socketServer.sendDataToClient(data, socket);
 	}
 	@Override
 	public void run() {
