@@ -82,8 +82,8 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    	System.out.println(new Date().toString()+"::设备即将停止发送数据<<<<设备自检");
 		    try {
 			Thread.sleep(timeOut);
-			//oldSendDataThread.sendDataOnce(mStatus);
-			socketServer.sendDataToClient(mStatus, socket);
+			oldSendDataThread.sendDataOnce(mStatus);
+			//socketServer.sendDataToClient(mStatus, socket);
 			Log.info("发送设备自检响应数据[{}]<<<<设备自检--data->",mStatus.length);
 			System.out.println(new Date().toString()+"::发送设备自检响应数据<<<<设备自检---data->"+mStatus.length);
 		    } catch (IOException e) {
@@ -162,19 +162,6 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	@Override
 	public void run() {
 	    do {
-		if (error) {
-		    return;
-		}
-		final String funcStr = funcid.toString();
-		if (funcStr.equals("1")) {
-		    continue;
-		}
-		if (end.get()) {
-		    if (ifHeartBeat) {
-			break;
-		    }
-		    continue;
-		}
 		// 收到指令数据，解码，执行命令
 		try {
 		    /* Log.info("解码,指令执行。。。"); */
@@ -183,7 +170,21 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
-		byte[] repData = responseForRequest.responseForRequest(funcStr);
+		if (error) {
+		    try {
+			Thread.sleep(timeOut*3);
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
+		    }
+		    return;
+		}
+		if (end.get()) {
+		    if (ifHeartBeat) {
+			break;
+		    }
+		    continue;
+		}
+		byte[] repData = responseForRequest.responseForRequest(funcid.toString());
 		// 指令执行完毕，生成响应，合成tcp报文,准备发送回服务端
 		/*
 		 * Log.info("指令执行完毕，生成tcp响应报文[{}]，发送响应tcp报文[{}]到客户端",
@@ -191,6 +192,9 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		 */
 		Log.info("======[{}]============响应报文[{}]==================", getName(), funcid);
 		System.out.println(new Date().toString()+"::=======响应报文============"+getName()+"=========>>"+funcid);
+		if (funcid.toString().equals("2")) {
+		    continue;
+		}
 		try {
 		    if (!socketServer.sendDataToClient(repData, socket)) {
 			break;
