@@ -166,7 +166,14 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	}
 	@Override
 	public void run() {
+	    Long beginTime = System.currentTimeMillis();
 	    do {
+		Long endTime = System.currentTimeMillis();
+		if (endTime-beginTime>60*1000) {
+		    beginTime = endTime;
+		    timeOut = (timeOut - 10)<10?10:timeOut-10;
+		    Log.info("时间间隔减短--------------------------------------------------[{}]------",timeOut);   
+		}
 		// 收到指令数据，解码，执行命令
 		try {
 		    /* Log.info("解码,指令执行。。。"); */
