@@ -14,6 +14,7 @@ import com.centling.radio.code.xml.MsgEncode;
 import com.centling.radio.code.xml.MsgMap;
 import com.centling.radio.code.xml.MsgPiece;
 import com.centling.radio.code.xml.MsgProperty;
+import com.centling.radio.socket.model.ByteArray;
 
 /**
  * @author lenovo
@@ -26,14 +27,22 @@ public class RequesResponsetMap {
      * 
      * @param args
      */
-    private HashMap<String, MsgEncode> map = this.getResponseMap();
-    public byte[] responseForRequest(String instrId) {
-	return map.get(instrId).getBytes();
+    HashMap<String, ByteArray> map = getResponseMap(0);
+    HashMap<String, ByteArray> map2 = getResponseMap(1);
+    HashMap<String, ByteArray> map3 = getResponseMap(2);
+    ArrayList<HashMap<String, ByteArray>> maps = new ArrayList<HashMap<String,ByteArray>>();
+    {
+	maps.add(map);
+	maps.add(map2);
+	maps.add(map3);
+    }
+    public byte[] responseForRequest(String instrId,Integer i) {
+	return maps.get(i%3).get(instrId).value();
     }
 
-    private HashMap<String, MsgEncode> getResponseMap() {
+    private HashMap<String, ByteArray> getResponseMap(Integer j) {
 	MsgDOM xmldom = new MsgDOM(MsgDOM.ResponsePath);
-	HashMap<String, MsgEncode> hashMap = new HashMap<String, MsgEncode>();
+	HashMap<String, ByteArray> hashMap = new HashMap<String, ByteArray>();
 	String[] requestIds = { "1", "2", "3", "30", "40" };
 	String[] responseIds = { "100", "102", "103", "130", "140" };
 	//String[] length = { "34", "38", "34", "107", "79", "79" };
@@ -42,6 +51,7 @@ public class RequesResponsetMap {
 	    MsgProperty msgProperties = new MsgProperty();
 	    msgProperties.setId(responseIds[i]);
 	    msgProperties.setUnNormalRepeatSize(3);
+	    
 	    if (i==4) {
 		msgProperties.setWhichbody("2");
 	    }else {
@@ -55,6 +65,10 @@ public class RequesResponsetMap {
 		}else {
 		    msgPiece.setValue("1");
 		}
+	    }
+	    if (i==3||i==4) {
+		MsgPiece frePiece = msgMapEncode.get("centerFrequency");
+		frePiece.setValue(Integer.valueOf(60+j).toString());
 	    }
 	    msgPiece = msgMapEncode.get("length");
 	    if (msgPiece != null) {
@@ -70,7 +84,7 @@ public class RequesResponsetMap {
 	  /* System.out.println("=======================响应合成======================");
 	    System.out.println(msgMapEncode.toString());*/
 	    byte[] data = msgEncode.getBytes();
-	    hashMap.put(requestIds[i], msgEncode);
+	    hashMap.put(requestIds[i], ByteArray.valueOf(data));
 	   /* String str = ByteArrayTool.byteArrayToString(data);
 	    System.out.println(str);*/
 	}
@@ -78,7 +92,7 @@ public class RequesResponsetMap {
     }
 
     public static void main(String[] args) throws Exception {
-	byte[] responseData = new RequesResponsetMap().responseForRequest("40");
+	byte[] responseData = new RequesResponsetMap().responseForRequest("30",6);
 	String str = ByteArrayTool.byteArrayToString(responseData);
 	System.out.println(str);
 	ResponseDecodeServiceImpl decode = new ResponseDecodeServiceImpl();

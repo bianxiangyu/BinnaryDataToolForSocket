@@ -100,7 +100,7 @@ public class SocketExtend {
     public byte[] receiveData(final int timeWaitBegin, final int timeWaitEnd) throws IOException {
 	if (!this.isConnecting()) {
 	    Log.error("网络连接未建立，无法接受数据");
-	    return null;
+	    throw new IOException();
 	}
 	/*
 	 * Log.info("{}--[{}][{}]:准备读取数据,waitFirst[{}]ms,waitEnd[{}]ms", new
@@ -161,7 +161,7 @@ public class SocketExtend {
     public boolean sendData(byte[] data) throws IOException {
 	if (!this.isConnecting()) {
 	    Log.error("连接未建立，无法发送数据");
-	    return false;
+	    throw new IOException("连接未建立，无法发送数据");
 	}
 	if (data == null || data.length <= 0) {
 	    Log.error("所发送数据不能为空！！");
