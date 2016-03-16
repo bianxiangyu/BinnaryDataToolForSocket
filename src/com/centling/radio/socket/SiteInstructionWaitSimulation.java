@@ -16,6 +16,7 @@ import com.centling.radio.utils.PropertyUtils;
 public class SiteInstructionWaitSimulation implements Runnable {
     Integer count = 0;
     private final static String TIME_PER_MSG = PropertyUtils.getProperty("time_per_mesg");
+    private final static String TIME_SEND_DEATH_AFTER_MACHINE_CHECK = PropertyUtils.getProperty("time_send_death_after_check");
     private Logger Log = LoggerFactory.getLogger(SiteInstructionWaitSimulation.class);
     static RequesResponsetMap responseForRequest = new RequesResponsetMap();
     private int serverPort;
@@ -173,6 +174,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    if (ifHeartBeat) {
 			timeOut = 10;
 		    }
+		    timeOut = timeOut + 1000;
 		    Thread.sleep(timeOut);
 		    // timeOut = timeOut + 1000;
 		} catch (InterruptedException e) {
@@ -180,7 +182,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		}
 		if (error) {
 		    try {
-			Thread.sleep(3000);
+			Thread.sleep(Integer.valueOf(TIME_SEND_DEATH_AFTER_MACHINE_CHECK));
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
 		    }
