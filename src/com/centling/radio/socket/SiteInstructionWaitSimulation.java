@@ -17,6 +17,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
     Integer count = 0;
     private final static String TIME_PER_MSG = PropertyUtils.getProperty("time_per_mesg");
     private Logger Log = LoggerFactory.getLogger(SiteInstructionWaitSimulation.class);
+    private final static String TIME_SEND_DEATH_AFTER_MACHINE_CHECK = PropertyUtils.getProperty("time_send_death_after_check");
     static RequesResponsetMap responseForRequest = new RequesResponsetMap();
     private int serverPort;
     private int receiveTimeOut;
@@ -187,7 +188,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		}
 		if (error) {
 		    try {
-			Thread.sleep(3000);
+			Thread.sleep(Integer.valueOf(TIME_SEND_DEATH_AFTER_MACHINE_CHECK));
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
 		    }
