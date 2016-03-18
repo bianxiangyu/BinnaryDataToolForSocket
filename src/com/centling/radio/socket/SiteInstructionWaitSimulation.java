@@ -46,7 +46,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
     private class ReceiveDataThread extends Thread {
 	
 	private SocketExtend socket;
-	private int timeOut = Integer.valueOf(TIME_PER_MSG);
+	private int timeToResponseRecNewInstr = 100;
 	private volatile boolean end = false;
 
 	public ReceiveDataThread(SocketExtend socket) {
@@ -80,12 +80,11 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    Log.info("收到设备自检指令<<<<设备自检");
 		    System.out.println(new Date().toString()+"::收到设备自检指令<<<<设备自检");
 		    byte[] mStatus = responseForRequest.responseForRequest("2",count);
-		    	SocketExtend socketExtend = oldSendDataThread.socket;
 		    	oldSendDataThread.end();
 		    	Log.info("设备即将停止发送数据<<<<设备自检");
 		    	System.out.println(new Date().toString()+"::设备即将停止发送数据<<<<设备自检");
 		    try {
-			Thread.sleep(timeOut);
+			Thread.sleep(timeToResponseRecNewInstr);
 			oldSendDataThread.sendDataOnce(mStatus);
 			oldSendDataThread.machineErr();
 			//socketServer.sendDataToClient(mStatus, socketExtend);
@@ -103,7 +102,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    try {
 			Log.info("监测请求应答For[{}]<<<<任务切换", funcidCpy);
 			System.out.println(new Date().toString()+"::监测请求应答<<<<任务切换---task->"+funcidCpy);
-			Thread.sleep(timeOut);
+			Thread.sleep(timeToResponseRecNewInstr);
 			// timeOut = timeOut + 1000;
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
@@ -245,7 +244,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    System.out.println(new Date().toString()+"::捕获客户端请求，收到设备自检指令<<<<设备自检");
 		    byte[] mStatus = responseForRequest.responseForRequest("2",count);
 		    try {
-			Thread.sleep(10);
+			Thread.sleep(100);
 			socketServer.sendDataToClient(mStatus, socket);
 			Log.info("发送设备自检响应数据[{}]",mStatus.length);
 			System.out.println(new Date().toString()+"::捕获客户端请求，发送设备自检响应数据<<<<设备自检---data->"+mStatus.length);
@@ -261,7 +260,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		try {
 		    Log.info("监测请求应答For[{}]指令", funcid);
 		    System.out.println(new Date().toString()+"::捕获客户端请求，监测请求应答---task->"+funcid);
-		    Thread.sleep(10);
+		    Thread.sleep(100);
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
