@@ -46,7 +46,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
     private class ReceiveDataThread extends Thread {
 	
 	private SocketExtend socket;
-	private int timeOut = Integer.valueOf(TIME_PER_MSG);
+	private int timeToReaponseForNewInstr = 10;
 	private volatile boolean end = false;
 
 	public ReceiveDataThread(SocketExtend socket) {
@@ -85,7 +85,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    	Log.info("设备即将停止发送数据<<<<设备自检");
 		    	System.out.println(new Date().toString()+"::设备即将停止发送数据<<<<设备自检");
 		    try {
-			Thread.sleep(timeOut);
+			Thread.sleep(timeToReaponseForNewInstr);
 			oldSendDataThread.sendDataOnce(mStatus);
 			oldSendDataThread.machineErr();
 			//socketServer.sendDataToClient(mStatus, socketExtend);
@@ -103,7 +103,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    try {
 			Log.info("监测请求应答For[{}]<<<<任务切换", funcidCpy);
 			System.out.println(new Date().toString()+"::监测请求应答<<<<任务切换---task->"+funcidCpy);
-			Thread.sleep(timeOut);
+			Thread.sleep(timeToReaponseForNewInstr);
 			// timeOut = timeOut + 1000;
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
