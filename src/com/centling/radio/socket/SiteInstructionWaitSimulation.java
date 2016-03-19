@@ -2,6 +2,7 @@ package com.centling.radio.socket;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -79,7 +80,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		if (funcidCpy.toString().equals("2")) {
 		    Log.info("收到设备自检指令<<<<设备自检");
 		    System.out.println(new Date().toString()+"::收到设备自检指令<<<<设备自检");
-		    byte[] mStatus = responseForRequest.responseForRequest("2",count);
+		    byte[] mStatus = responseForRequest.responseForRequest("2");
 		    	oldSendDataThread.end();
 		    	Log.info("设备即将停止发送数据<<<<设备自检");
 		    	System.out.println(new Date().toString()+"::设备即将停止发送数据<<<<设备自检");
@@ -98,7 +99,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    
 		}
 		if (!funcidCpy.toString().equals("2") && !funcidCpy.toString().equals("3")) {
-		    byte[] repFirst = responseForRequest.responseForRequest("1",count);
+		    byte[] repFirst = responseForRequest.responseForRequest("1");
 		    try {
 			Log.info("监测请求应答For[{}]<<<<任务切换", funcidCpy);
 			System.out.println(new Date().toString()+"::监测请求应答<<<<任务切换---task->"+funcidCpy);
@@ -142,7 +143,8 @@ public class SiteInstructionWaitSimulation implements Runnable {
     }
 
     private class SendDataThread extends Thread {
-	Integer countEachThread = 0;
+	
+	
 	private SocketExtend socket;
 	private int timeOut = Integer.valueOf(TIME_PER_MSG);
 	private AtomicBoolean end = new AtomicBoolean(false);
@@ -192,8 +194,8 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    }
 		    continue;
 		}
-		byte[] repData = responseForRequest.responseForRequest(funcid.toString(),countEachThread);
-		countEachThread = countEachThread+1;
+		byte[] repData = responseForRequest.responseForRequest(funcid.toString());
+		
 		// 指令执行完毕，生成响应，合成tcp报文,准备发送回服务端
 		/*
 		 * Log.info("指令执行完毕，生成tcp响应报文[{}]，发送响应tcp报文[{}]到客户端",
@@ -242,7 +244,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	    if (funcid.toString().equals("2")) {
 		    Log.info("收到设备自检指令");
 		    System.out.println(new Date().toString()+"::捕获客户端请求，收到设备自检指令<<<<设备自检");
-		    byte[] mStatus = responseForRequest.responseForRequest("2",count);
+		    byte[] mStatus = responseForRequest.responseForRequest("2");
 		    try {
 			Thread.sleep(100);
 			socketServer.sendDataToClient(mStatus, socket);
@@ -256,7 +258,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    continue;
 		}
 	    if (!funcid.toString().equals("2") && !funcid.toString().equals("3")) {
-		byte[] repFirst = responseForRequest.responseForRequest("1",count);
+		byte[] repFirst = responseForRequest.responseForRequest("1");
 		try {
 		    Log.info("监测请求应答For[{}]指令", funcid);
 		    System.out.println(new Date().toString()+"::捕获客户端请求，监测请求应答---task->"+funcid);

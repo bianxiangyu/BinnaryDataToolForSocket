@@ -158,6 +158,9 @@ public class ByteArrayTool {
 	for (int i = 0; i < res.length; i++) {
 	    int equalCount = 0;
 	    for (int j = 0; j < dest.length; j++, equalCount++) {
+		if (i+j>res.length-1) {
+		    break;
+		}
 		if (res[i + j] != dest[j]) {
 		    break;
 		}
