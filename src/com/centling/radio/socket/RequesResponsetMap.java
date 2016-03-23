@@ -84,7 +84,7 @@ public class RequesResponsetMap {
 	  /* System.out.println("=======================响应合成======================");
 	    System.out.println(msgMapEncode.toString());*/
 	    byte[] data = msgEncode.getBytes();
-	    if (i==3||i==4) {
+	    if ((i==3||i==4)&&j>1) {
 		if (i==3) {
 		    data = ByteArrayTool.byteArrayCut(data, 1, data.length-1);
 		}
@@ -102,7 +102,7 @@ public class RequesResponsetMap {
     }
 
     public static void main(String[] args) throws Exception {
-	byte[] responseData = new RequesResponsetMap().responseForRequest("30",6);
+	byte[] responseData = new RequesResponsetMap().responseForRequest("30",5);
 	String str = ByteArrayTool.byteArrayToString(responseData);
 	System.out.println(str);
 	ResponseDecodeServiceImpl decode = new ResponseDecodeServiceImpl();
