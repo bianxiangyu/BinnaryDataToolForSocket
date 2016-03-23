@@ -84,6 +84,16 @@ public class RequesResponsetMap {
 	  /* System.out.println("=======================响应合成======================");
 	    System.out.println(msgMapEncode.toString());*/
 	    byte[] data = msgEncode.getBytes();
+	    if (i==3||i==4) {
+		if (i==3) {
+		    data = ByteArrayTool.byteArrayCut(data, 1, data.length-1);
+		}
+		if (i==4) {
+		    byte[] res = new byte[data.length];
+		    ByteArrayTool.byteArrayCopy(res, 0, data);
+		    data = res;
+		}
+	    }
 	    hashMap.put(requestIds[i], ByteArray.valueOf(data));
 	   /* String str = ByteArrayTool.byteArrayToString(data);
 	    System.out.println(str);*/
