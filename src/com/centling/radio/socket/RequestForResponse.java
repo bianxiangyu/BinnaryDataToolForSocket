@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.centling.radio.code.xml.ByteArrayTool;
 import com.centling.radio.socket.model.ByteArray;
 import com.centling.radio.socket.model.RequestParameter;
 

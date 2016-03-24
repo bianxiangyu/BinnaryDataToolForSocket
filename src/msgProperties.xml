@@ -4,9 +4,9 @@
 	<instruction id="2" chose="false" baseLength="33" />
 	<instruction id="3" chose="false" baseLength="33" />
 	<instruction id="20" chose="false" baseLength="48" />
-	<instruction id="30" chose="false" baseLength="39"
+	<instruction id="30" chose="false" baseLength="37"
 		extendBaseLength="17" />
-	<instruction id="40" chose="false" baseLength="39"
+	<instruction id="40" chose="false" baseLength="38"
 		extendBaseLength="9" />
 	<response id="100" chose="false" />
 	<response id="102" chose="false" unNormalRepeatPos="33"
@@ -18,10 +18,10 @@
 	</response>
 	<response id="130" chose="true" chosePos="32" choseLength="1">
 		<body id="1"></body>
-		<body id="2" uRepeatlength="4" unNormalRepeatPos="70"/>
+		<body id="2" uRepeatlength="4" unNormalRepeatPos="68"/>
 	</response>
 	<response id="140" chose="true" chosePos="32" choseLength="1">
 		<body id="1"></body>
-		<body id="2" uRepeatlength="4" unNormalRepeatPos="70"/>
+		<body id="2" uRepeatlength="4" unNormalRepeatPos="68"/>
 	</response>
 </message>

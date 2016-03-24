@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import com.centling.radio.code.xml.ByteArrayTool;
-import com.centling.radio.socket.model.BaseTcpMsg;
 
 public class BaseTcpMesgDecode {
     protected byte[] msgData = null;

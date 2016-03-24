@@ -65,8 +65,6 @@
 		</gaussianNoiseLevel>
 		<pulseContinueTime type="uint" length="4">12
 		</pulseContinueTime>
-		<pulseFieldStrength type="short" length="2">12
-		</pulseFieldStrength>
 		<repeatU type="uint" length="4">
 			<pulseWidth type="uint" length="4">12</pulseWidth>
 			<pulseInterval type="uint" length="4">12</pulseInterval>

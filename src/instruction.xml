@@ -35,15 +35,14 @@
 	</instruction>
 	<instruction id="30">
 		<include id="head" />
-		<repeat length="2" type="short">
+		<repeat length="1" type="byte">
 			<startFrequency length="4" type="uint"></startFrequency>
 			<endFrequency length="4" type="uint"></endFrequency>
 			<scanStep length="4" type="uint"></scanStep>
 			<bandWidth length="4" type="uint"></bandWidth>
-			<attenuation length="1" type="byte"></attenuation>
+			<attenuation length="1" type="byte">0</attenuation>
 		</repeat>
-		<stopTime length="2" type="short"></stopTime>
-		<AGCControl length="1" type="byte"></AGCControl>
+		<stopTime length="2" type="short">0</stopTime>
 		<methodType length="1" type="byte"></methodType>
 		<include id="check" />
 	</instruction>
@@ -52,10 +51,9 @@
 		<repeat length="2" type="short">
 			<frequency length="4" type="uint"></frequency>
 			<IFBandWidth length="4" type="uint"></IFBandWidth>
-			<attenuation length="1" type="byte"></attenuation>
+			<attenuation length="1" type="byte">0</attenuation>
 		</repeat>
-		<stopTime length="2" type="short"></stopTime>
-		<AGCControl length="1" type="byte"></AGCControl>
+		<stopTime length="2" type="short">0</stopTime>
 		<methodType length="1" type="byte"></methodType>
 		<include id="check" />
 	</instruction>

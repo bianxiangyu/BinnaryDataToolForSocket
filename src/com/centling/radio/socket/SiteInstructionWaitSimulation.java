@@ -2,7 +2,6 @@ package com.centling.radio.socket;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
