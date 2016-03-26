@@ -4,6 +4,8 @@
 package com.centling.radio.socket;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -46,6 +48,34 @@ public class RequesResponsetMap {
      * length="2">21</cableLoss> <machineNoiseRate type="short" length="2">21
      * </machineNoiseRate>
      */
+    /*
+    <timeYear type="short" length="2">2016</timeYear>
+	<timeMonth type="byte" length="1">12</timeMonth>
+	<timeDay type="byte" length="1">31</timeDay>
+	<timeHour type="byte" length="1">12</timeHour>
+	<timeMinute type="byte" length="1">35</timeMinute>
+	<timeSecond type="byte" length="1">34</timeSecond>
+	<timeMilliSecond type="short" length="2">120
+	</timeMilliSecond>
+	<timeMicroSecond type="short" length="2">21
+	</timeMicroSecond>
+	<timeNanoSecond type="short" length="2">121
+	</timeNanoSecond>*/
+    private void setTimeStamp(MsgMap<String, MsgPiece> msgMap){
+	Calendar calendar = Calendar.getInstance();
+	String year = String.valueOf(calendar.get(Calendar.YEAR));
+	String month = String.valueOf(calendar.get(Calendar.MONTH)+1);
+	String day = String.valueOf(calendar.get(Calendar.DATE));
+	String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+	String minute = String.valueOf(calendar.get(Calendar.MINUTE));
+	String second = String.valueOf(calendar.get(Calendar.SECOND));
+	msgMap.get("timeYear").setValue(year);
+	msgMap.get("timeMonth").setValue(month);
+	msgMap.get("timeDay").setValue(day);
+	msgMap.get("timeHour").setValue(hour);
+	msgMap.get("timeMinute").setValue(minute);
+	msgMap.get("timeSecond").setValue(second);
+    }
     public byte[] responseForRequest(String instrId) {
 	MsgMap<String, MsgPiece> msgMap = structureMap.get(instrId);
 	Random random = new Random(System.currentTimeMillis());
@@ -60,6 +90,7 @@ public class RequesResponsetMap {
 	    outSideNoiseRate.setValue(Integer.valueOf(random.nextInt(100)).toString());
 	    MsgPiece machineNoiseRate = msgMap.get("machineNoiseRate");
 	    machineNoiseRate.setValue(Integer.valueOf(random.nextInt(100)).toString());
+	    setTimeStamp(msgMap);
 	}
 	System.out.println(msgMap.toString());
 	MsgEncode msgEncode = new MsgEncode(msgMap);
@@ -112,7 +143,8 @@ public class RequesResponsetMap {
 	RequesResponsetMap requesResponsetMap = new RequesResponsetMap();
 	for (int i = 0; i < 10; i++) {
 	    System.out.println("=========================================["+i+"]============================================");
-	    byte[] responseData = requesResponsetMap.responseForRequest("40");
+	    Thread.sleep(1000);
+	    byte[] responseData = requesResponsetMap.responseForRequest("30");
 	    String str = ByteArrayTool.byteArrayToString(responseData);
 	    System.out.println(str);
 	    ResponseDecodeServiceImpl decode = new ResponseDecodeServiceImpl();
