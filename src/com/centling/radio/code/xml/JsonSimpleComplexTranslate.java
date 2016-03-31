@@ -22,7 +22,6 @@ public class JsonSimpleComplexTranslate {
 	ArrayList<String> keyList = new ArrayList<String>(keySet);
 	for (int i = 0; i < keyList.size(); i++) {
 	    String key = keyList.get(i);
-	    System.out.println(key);
 	    if (key.equals(MsgDOM.repeat)) {
 		ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>) complexMap.get(key);
 		simpleMap.put(MsgDOM.repeat, new Integer(list.size()).toString());
