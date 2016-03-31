@@ -103,7 +103,9 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		    try {
 			Thread.sleep(5);
 			oldSendDataThread.sendDataOnce(data);
-			oldSendDataThread.resumeSend();
+			if (!funcid.toString().equals("3")) {
+			    oldSendDataThread.resumeSend();
+			}
 		    } catch (IOException e) {
 			e.printStackTrace();
 			return;
@@ -162,9 +164,11 @@ public class SiteInstructionWaitSimulation implements Runnable {
 	private AtomicBoolean wait = new AtomicBoolean(false);
 	private volatile boolean error = false;
 	private volatile boolean end = false;
-	public void end(){
+
+	public void end() {
 	    this.end = true;
 	}
+
 	public void machineErr() {
 	    this.error = true;
 	}
@@ -283,6 +287,7 @@ public class SiteInstructionWaitSimulation implements Runnable {
 		try {
 		    Thread.sleep(5);
 		    socketServer.sendDataToClient(link, socket);
+		    Log.info("心跳请求应答For[{}]指令", funcid);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		    return;
