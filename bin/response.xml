@@ -2,8 +2,8 @@
 <responses keyTag="bodyType,btype,repeatU">
 	<piece id="head">
 		<startTag length="4" type="string">SIEW</startTag>
-		<length length="4" type="uint">74</length>
-		<funcid length="4" type="uint">30</funcid>
+		<length length="4" type="uint"></length>
+		<funcid length="4" type="uint"></funcid>
 		<fromAddress length="10" type="string">1234567890</fromAddress>
 		<toAddress length="10" type="string">0987654321</toAddress>
 	</piece>
@@ -13,68 +13,68 @@
 	<piece id="timeScale">
 		<timeYear type="short" length="2">2016</timeYear>
 		<timeMonth type="byte" length="1">12</timeMonth>
-		<timeDay type="byte" length="1">31</timeDay>
-		<timeHour type="byte" length="1">12</timeHour>
-		<timeMinute type="byte" length="1">35</timeMinute>
-		<timeSecond type="byte" length="1">34</timeSecond>
-		<timeMilliSecond type="short" length="2">120
+		<timeDay type="byte" length="1">25</timeDay>
+		<timeHour type="byte" length="1">0</timeHour>
+		<timeMinute type="byte" length="1">0</timeMinute>
+		<timeSecond type="byte" length="1">0</timeSecond>
+		<timeMilliSecond type="short" length="2">0
 		</timeMilliSecond>
-		<timeMicroSecond type="short" length="2">21
+		<timeMicroSecond type="short" length="2">0
 		</timeMicroSecond>
-		<timeNanoSecond type="short" length="2">121
+		<timeNanoSecond type="short" length="2">0
 		</timeNanoSecond>
 	</piece>
 	<piece id="whiteGaussianNoiseData">
 		<include id="timeScale"></include>
-		<centerFrequency type="uint" length="4">60
+		<centerFrequency type="uint" length="4">10
 		</centerFrequency>
-		<bandWidth type="uint" length="4">12</bandWidth>
-		<fieldStrength type="short" length="2">21</fieldStrength>
-		<outSideNoiseRate type="short" length="2">12
+		<bandWidth type="uint" length="4">11</bandWidth>
+		<fieldStrength type="short" length="2">12</fieldStrength>
+		<outSideNoiseRate type="short" length="2">13
 		</outSideNoiseRate>
-		<XRate type="short" length="2">21</XRate>
-		<machineBaseNoise type="short" length="2">21
+		<XRate type="short" length="2">14</XRate>
+		<machineBaseNoise type="short" length="2">15
 		</machineBaseNoise>
-		<outSideNoiseLevel type="short" length="2">21
+		<outSideNoiseLevel type="short" length="2">16
 		</outSideNoiseLevel>
-		<noiseCorrectionValue type="short" length="2">21
+		<noiseCorrectionValue type="short" length="2">17
 		</noiseCorrectionValue>
-		<XRateCorrectionValue type="short" length="2">21
+		<XRateCorrectionValue type="short" length="2">18
 		</XRateCorrectionValue>
 		<remainNoiseSamplesMiddleValue type="short"
-			length="2">21</remainNoiseSamplesMiddleValue>
+			length="2">19</remainNoiseSamplesMiddleValue>
 		<remainNoiseSamplesAverageValue type="short"
-			length="2">21</remainNoiseSamplesAverageValue>
+			length="2">20</remainNoiseSamplesAverageValue>
 		<antennaFactor type="short" length="2">21</antennaFactor>
-		<cableLoss type="short" length="2">21</cableLoss>
-		<machineNoiseRate type="short" length="2">21
+		<cableLoss type="short" length="2">22</cableLoss>
+		<machineNoiseRate type="short" length="2">23
 		</machineNoiseRate>
 	</piece>
 	<piece id="impulseNoiseData">
 		<include id="timeScale"></include>
-		<centerFrequency type="uint" length="4">21
+		<centerFrequency type="uint" length="4">10
 		</centerFrequency>
-		<bandWidth type="uint" length="4">21</bandWidth>
+		<bandWidth type="uint" length="4">11</bandWidth>
 		<antennaFactor type="short" length="2">12</antennaFactor>
-		<cableLoss type="short" length="2">12</cableLoss>
-		<machineNoiseRate type="short" length="2">12
+		<cableLoss type="short" length="2">13</cableLoss>
+		<machineNoiseRate type="short" length="2">14
 		</machineNoiseRate>
-		<machineBaseNoise type="short" length="2">12
+		<machineBaseNoise type="short" length="2">15
 		</machineBaseNoise>
-		<gaussianNoiseLevel type="short" length="2">12
+		<gaussianNoiseLevel type="short" length="2">16
 		</gaussianNoiseLevel>
-		<pulseContinueTime type="uint" length="4">12
+		<pulseContinueTime type="uint" length="4">17
 		</pulseContinueTime>
 		<repeatU type="uint" length="4">
-			<pulseWidth type="uint" length="4">12</pulseWidth>
-			<pulseInterval type="uint" length="4">12</pulseInterval>
-			<pulseLevel type="short" length="2">12</pulseLevel>
+			<pulseWidth type="uint" length="4">18</pulseWidth>
+			<pulseInterval type="uint" length="4">18</pulseInterval>
+			<pulseLevel type="short" length="2">18</pulseLevel>
 		</repeatU>
 	</piece>
 	<piece id="spectrumData">
 		<repeatU length="4" type="uint">
-			<range length="2" type="short">12</range>
-			<frequency length="4" type="uint">12</frequency>
+			<range length="2" type="short">10</range>
+			<frequency length="4" type="uint">10</frequency>
 		</repeatU>
 	</piece>
 	<response id="100">
@@ -98,10 +98,10 @@
 	<response id="120">
 		<include id="head"></include>
 		<bodyType length="1" type="byte">
-			<btype dataType="0">
+			<btype dataType="1">
 				<include id="whiteGaussianNoiseData" />
 			</btype>
-			<btype dataType="1">
+			<btype dataType="2">
 				<include id="impulseNoiseData" />
 			</btype>
 		</bodyType>

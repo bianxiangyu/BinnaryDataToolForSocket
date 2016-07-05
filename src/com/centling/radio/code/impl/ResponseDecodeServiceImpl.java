@@ -69,9 +69,9 @@ public class ResponseDecodeServiceImpl implements IResponseDecodeService {
     public static void main(String[] args) {
 	MsgDOM xmldom = new MsgDOM(MsgDOM.ResponsePath);
 	String[] ids = { "100", "102", "103", "120", "130", "140" };
-	String[] length = { "34", "38", "34", "107", "79", "79" };
+	String[] length = { "34", "38", "34", "79", "79", "79" };
 	for (int i = 0; i < ids.length; i++) {
-	    System.out.println("================鍑嗗鍚堟垚娴嬭瘯瀛楄妭鐮乕" + ids[i] + "]====================");
+	    System.out.println("================准备合成响应[" + ids[i] + "]====================");
 	    MsgProperty msgProperties = new MsgProperty();
 	    msgProperties.setId(ids[i]);
 	    msgProperties.setUnNormalRepeatSize(3);
@@ -92,13 +92,13 @@ public class ResponseDecodeServiceImpl implements IResponseDecodeService {
 	    msgPiece = msgMapEncode.get("funcid");
 	    msgPiece.setValue(ids[i]);
 	    MsgEncode msgEncode = new MsgEncode(msgMapEncode);
-	    System.out.println("================鍚堟垚鍝嶅簲[" + ids[i] + "]====================");
+	    System.out.println("================指令合成[" + ids[i] + "]====================");
 	    // System.out.println(msgMapEncode.toString());
 	    byte[] data = msgEncode.getBytes();
 	    // System.out.println(msgEncode.getObjects().toString());
 	    String str = ByteArrayTool.byteArrayToString(data);
 	    System.out.println(str);
-	    System.out.println("================鍝嶅簲瑙ｆ瀽[" + ids[i] + "]====================");
+	    System.out.println("================指令解析[" + ids[i] + "]====================");
 	    ResponseDecodeServiceImpl responseDecode = new ResponseDecodeServiceImpl();
 	    Response response;
 	    try {
@@ -107,7 +107,7 @@ public class ResponseDecodeServiceImpl implements IResponseDecodeService {
 		System.out.println(response.getComplexObjects().toString());
 		System.out.println(response.isCheck());
 	    } catch (Exception e) {
-		System.out.println("鍝嶅簲瑙ｆ瀽澶辫触");
+		System.out.println("指令合成失败");
 		e.printStackTrace();
 	    }
 

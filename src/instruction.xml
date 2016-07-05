@@ -23,13 +23,16 @@
 		<include id="head" />
 		<include id="check" />
 	</instruction>
+	<instruction id="4">
+		<include id="head"/>
+		<modeType length="1" type="byte"></modeType>
+		<include id="check"/>
+	</instruction>
 	<instruction id="20">
 		<include id="head" />
 		<monitorFrequency length="4" type="uint"></monitorFrequency>
-		<displayBandWidth length="4" type="uint"></displayBandWidth>
 		<IFBandWidth length="4" type="uint"></IFBandWidth>
-		<XRate length="1" type="byte"></XRate>
-		<attenuation length="1" type="byte"></attenuation>
+		<attenuation length="1" type="byte">0</attenuation>
 		<methodType length="1" type="byte"></methodType>
 		<include id="check" />
 	</instruction>

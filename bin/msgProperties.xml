@@ -3,7 +3,8 @@
 	<instruction id="1" chose="false" baseLength="37" />
 	<instruction id="2" chose="false" baseLength="33" />
 	<instruction id="3" chose="false" baseLength="33" />
-	<instruction id="20" chose="false" baseLength="48" />
+	<instruction id="4" chose="false" baseLength="34"/>
+	<instruction id="20" chose="false" baseLength="43" />
 	<instruction id="30" chose="false" baseLength="37"
 		extendBaseLength="17" />
 	<instruction id="40" chose="false" baseLength="38"
@@ -13,8 +14,8 @@
 		uRepeatlength="1" />
 	<response id="103" chose="false" />
 	<response id="120" chose="true" chosePos="32" choseLength="1">
-		<body id="0"/>
-		<body id="1" uRepeatlength="4" unNormalRepeatPos="70"/>
+		<body id="1"/>
+		<body id="2" uRepeatlength="4" unNormalRepeatPos="68"/>
 	</response>
 	<response id="130" chose="true" chosePos="32" choseLength="1">
 		<body id="1"></body>
