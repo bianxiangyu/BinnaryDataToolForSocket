@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.centling.radio.socket.SocketExtend;
 import com.centling.radio.socket.SocketServer;
 
-public class SendDataThread extends Thread {
+public class SendDataThread implements Runnable {
     private final static Logger Log = LoggerFactory.getLogger(SendDataThread.class);
     private SocketExtend socket;
     private int timeOut = Integer.valueOf(Simulator.TIME_PER_MSG);
@@ -17,7 +17,7 @@ public class SendDataThread extends Thread {
     private volatile boolean end = false;
     private volatile Integer funcid;
     private SocketServer socketServer;
-
+    private int hassend =0;
     public void end() {
 	this.end = true;
     }
@@ -43,11 +43,7 @@ public class SendDataThread extends Thread {
 	return socketServer.sendDataToClient(data, socket);
     }
 
-    @Override
-    public synchronized void start() {
-	this.pauseSend();
-	super.start();
-    };
+    
 
     @Override
     public void run() {
@@ -59,25 +55,29 @@ public class SendDataThread extends Thread {
 	    }
 	    synchronized (this) {
 		if (wait) {
-		    try {
+		    /*try {
 			Thread.sleep(100);
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
-		    }
+		    }*/
 		    try {
 			this.wait();
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
 		    }
 		} else {
-		    byte[] repData = Simulator.responseForRequest.responseForRequest(funcid.toString());
-		    Log.info("======[{}]============响应报文[{}]==================", getName(), funcid);
-		    System.out.println(
-			    new Date().toString() + "::=======响应报文============" + getName() + "=========>>" + funcid);
+		    byte[] repData = Simulator.responseForRequest.responseForRequestPressure(funcid.toString());
+		    if (hassend%1000==0) {
+			 Log.info("======[{}]============响应报文[{}]==========[{}]========", Thread.currentThread().getName(), funcid,hassend);
+		    }
+		   /* System.out.println(
+			    new Date().toString() + "::=======响应报文============" + getName() + "=========>>" + funcid);*/
 		    try {
 			if (!socketServer.sendDataToClient(repData, socket)) {
+			    Log.info("[{}]响应报文[{}]发送失败",Thread.currentThread().getName(),funcid);
 			    break;
 			}
+			hassend++;
 		    } catch (IOException e) {
 			Log.error("网络连接异常，无法向客户端发送数据!");
 			System.out.println(new Date().toString() + "::网络连接异常,无法发送数据，即将返回");

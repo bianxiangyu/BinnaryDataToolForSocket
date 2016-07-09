@@ -18,6 +18,7 @@ public class Simulator implements Runnable {
 	    .getProperty("time_send_death_after_check");
     private Logger Log = LoggerFactory.getLogger(Simulator.class);
     public static RequesResponsetMap responseForRequest = new RequesResponsetMap();
+    public static ThreadPool threadPool = new ThreadPool();
     private int serverPort;
     private int receiveTimeOut;
     private SocketServer socketServer;
@@ -53,7 +54,7 @@ public class Simulator implements Runnable {
     }
 
     public static void main(String[] args) {
-	ByteArrayTool.setPrintStreamToFile(ByteArrayTool.FILE_STATION);
+	//ByteArrayTool.setPrintStreamToFile(ByteArrayTool.FILE_STATION);
 	String instrPortStr = PropertyUtils.getProperty("start_instruction_port");
 	String numberStr = PropertyUtils.getProperty("number_of_simulator");
 	RequestParameter parameter = RequestParameter.getInstanceByConfFile();

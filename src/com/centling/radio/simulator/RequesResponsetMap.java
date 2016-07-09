@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
 import com.centling.radio.code.impl.ResponseDecodeServiceImpl;
 import com.centling.radio.code.model.Response;
@@ -16,6 +17,7 @@ import com.centling.radio.code.xml.MsgEncode;
 import com.centling.radio.code.xml.MsgMap;
 import com.centling.radio.code.xml.MsgPiece;
 import com.centling.radio.code.xml.MsgProperty;
+import com.centling.radio.socket.model.ByteArray;
 
 /**
  * @author lenovo
@@ -29,7 +31,7 @@ public class RequesResponsetMap {
      * @param args
      */
     private HashMap<String, MsgMap<String, MsgPiece>> structureMap = getMsgStructure();
-
+    private HashMap<String, ByteArray> responseMap = getResponseMap();
     /*
      * <centerFrequency type="uint" length="4">60 </centerFrequency> <bandWidth
      * type="uint" length="4">12</bandWidth> <fieldStrength type="short"
@@ -78,10 +80,13 @@ public class RequesResponsetMap {
 	msgMap.get("timeMinute").setValue(minute);
 	msgMap.get("timeSecond").setValue(second);
     }
+    public byte[] responseForRequestPressure(String instrId){
+	return responseMap.get(instrId).value();
+    }
     public byte[] responseForRequest(String instrId) {
 	MsgMap<String, MsgPiece> msgMap = structureMap.get(instrId);
 	Random random = new Random(System.currentTimeMillis());
-	if (instrId.equals("30")) {
+	if (instrId.equals("30")||instrId.equals("20")) {
 	    MsgPiece frePiece = msgMap.get("centerFrequency");
 	    frePiece.setValue(Integer.valueOf(random.nextInt(100)).toString());
 	    MsgPiece fieldPiece = msgMap.get("fieldStrength");
@@ -98,7 +103,17 @@ public class RequesResponsetMap {
 	MsgEncode msgEncode = new MsgEncode(msgMap);
 	return msgEncode.getBytes();
     }
-
+    private  HashMap<String, ByteArray> getResponseMap(){
+	HashMap<String, ByteArray> map = new HashMap<>();
+	Set<String> keys = structureMap.keySet();
+	for (String key:keys) {
+	    MsgMap<String, MsgPiece> structure = structureMap.get(key);
+	    MsgEncode encode = new MsgEncode(structure);
+	    byte[] data = encode.getBytes();
+	    map.put(key, ByteArray.valueOf(data));
+	}
+	return map;
+    }
     private HashMap<String, MsgMap<String, MsgPiece>> getMsgStructure() {
 	HashMap<String, MsgMap<String, MsgPiece>> arrayList = new HashMap<String, MsgMap<String, MsgPiece>>();
 	MsgDOM xmldom = new MsgDOM(MsgDOM.ResponsePath);
@@ -152,7 +167,7 @@ public class RequesResponsetMap {
 	for (int i = 0; i < 10; i++) {
 	    System.out.println("=========================================["+i+"]============================================");
 	    Thread.sleep(1000);
-	    byte[] responseData = requesResponsetMap.responseForRequest("40");
+	    byte[] responseData = requesResponsetMap.responseForRequestPressure("40");
 	    String str = ByteArrayTool.byteArrayToString(responseData);
 	    System.out.println(str);
 	    ResponseDecodeServiceImpl decode = new ResponseDecodeServiceImpl();
