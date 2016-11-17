@@ -99,7 +99,7 @@ public class RequesResponsetMap {
 	    machineNoiseRate.setValue(Integer.valueOf(random.nextInt(100)).toString());
 	}
 	setTimeStamp(msgMap);
-	System.out.println(msgMap.toString());
+	//System.out.println(msgMap.toString());
 	MsgEncode msgEncode = new MsgEncode(msgMap);
 	return msgEncode.getBytes();
     }
