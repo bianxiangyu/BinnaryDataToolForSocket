@@ -1,4 +1,2 @@
 # BinnaryDataToolForSocket
-you can transform the JSONData to BinnaryData,then you can send it to other Machine by TCP/IP or other protocol,
-you can transform the BinnaryData to JSONData,
-you can design you data structure by the xml file.
+通过该项目可以将JSON数据很方便地依据二进制报文结构转换成二进制报文，这样就可以将其通过TCP协议或者其他协议发送到任何设备上；同样，当你从其他设备通过TCP协议或者其他协议收到二进制数据时，可以很方便地通过该项目将其解码为可识别的JSON数据。重要的是，你还可以通过XML文件自己设计二进制报文的结构，本项目目前为止支持5种类型的报文结构，支持定长报文的报文结构缓存，支持报文数据校验。
